@@ -6,23 +6,78 @@
   <script id="challenge">
     // 👉 CHALLENGE 1
     function profileActivation(profile, reason) {
-
+  if (profile.active === true) {
+    if (!reason) {
+      return "confirm status manually";
     }
+    profile.active = false;
+    profile.reason = reason;
+  } else if (profile.active === false&& !reason) {
+    profile.active = true;
+    delete profile.reason;
+  }
+  return profile;
+}
 
     // 👉 CHALLENGE 2
-    function mineSweeper(grid, x, y) {
-
+    function safecheck(grid,x,y){
+      if(grid[x][y] === '🟦'){
+        return true;
+      }
+      return false;
     }
+    function mineSweeper(grid, x, y) {
+  if (x < 1 || x > 3 || y < 1 || y > 3) {
+    return "invalid coordinates";
+  }
+  x=x-1;
+  y=y-1;
+  let gridvaules = grid[y][x];
+  if (gridvaules === '🟦') { // assuming safe is a function that checks if coordinates are safe
+    return "🟦 🥳";
+  } else   { // assuming unsafe is a function that checks if coordinates are unsafe
+    return "🟥 💀";
+  }
+}
 
     // 👉 CHALLENGE 3
     function booleanize(obj) {
-
+  let newObj = {};
+  for (let key in obj) {
+    let value = obj[key];
+    if (key.length > 9) {
+      key = key.substring(0, 9); // shorten the key to 9 characters
+      return "shorten all prop names to 9 chars or less"
     }
+     
+    if (value === null) {
+      continue; // skip this key-value pair
+    }
+    if (value == '0') {
+      value = false;
+    } else if (value == '1') {
+      value = true;
+    }
+    newObj[key] = value;
+  }
+  return newObj;
+}
 
     // 👉 CHALLENGE 4
     function scrub(text, forbidden) {
-
+  if (!text || !forbidden) {
+    return text;
+  }
+  
+  let words = text.split(' ');
+  for (let i = 0; i < words.length; i++) {
+    if (forbidden.includes(words[i])) {
+      words[i] = 'x'.repeat(words[i].length); // replace forbidden words with 'x'
     }
+  }
+  
+  return words.join(' ');
+}
 
     // 👉 CHALLENGE 5 (bonus, NOT graded)
     function normalizePhoneNumber(num) {
